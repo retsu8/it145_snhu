@@ -1,3 +1,9 @@
+/***************************
+*  William Paddock
+*  IT 145
+*  1.37 Basic output with variables 
+****************************/
+
 import java.util.Scanner; 
 
 public class OutputWithVars {

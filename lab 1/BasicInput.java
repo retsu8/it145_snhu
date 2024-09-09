@@ -1,3 +1,9 @@
+/***************************
+*  William Paddock
+*  IT 145
+*  1.38 Variables, input, and casting 
+****************************/
+
 import java.util.Scanner;
 
 public class BasicInput {
