@@ -14,8 +14,14 @@ class Pet {
    private int catSpaces;
    private int daysStay;
    private double amountDue;
-   public static void main(String[] args){
-
+   public void Pet(){
+      this.petName = "";
+      this.petType = null;
+      this.petAge = -1;
+      this.dogSpaces = 30;
+      this.catSpaces = 20;
+      this.daysStay = 0;
+      this.amountDue = 0.0;
    }
    public String getPetType(){
       return this.petType;
