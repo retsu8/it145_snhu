@@ -70,7 +70,27 @@ class Cat extends Pet {
    public int getCatSpaceNumber(){
       return this.catSpaceNumber;
    }
-   class Dog extends Pet {
-
+}
+class Dog extends Pet {
+   private int dogSpaceNumber;
+   private double dogWeight;
+   private Boolean grooming;
+   public int getDogSpaceNumber(){
+      return this.dogSpaceNumber;
+   }
+   public void setDogSpaceNumber(int dogSpaces){
+      this.dogSpaceNumber = dogSpaces;
+   }
+   public void setDogWeight(double weight){
+      this.dogWeight = weight;
+   }
+   public double getDogWeight(){
+      return this.dogWeight;
+   }
+   public boolean getGrooming(){
+      return this.grooming;
+   }
+   public void setGromming(boolean groom){
+      this.grooming = groom;
    }
 }
