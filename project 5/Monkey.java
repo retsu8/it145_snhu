@@ -1,6 +1,6 @@
 /***************************
 *  @Author William Paddock
-* @Version; .01
+*  @Version; .01
 *  IT 145
 *  5.4 Menu Loop and Monkey Intake
 ****************************/
@@ -13,6 +13,9 @@ public class Monkey extends RescueAnimal {
     private String bodyLength;
     private String species;
     private Double tailLength;
+    private static ArrayList<Species> speciesList = new ArrayList<Species>(
+        "capuchin","guenon","macaque","marmoset","squirrel monkey","tamarin"
+    );
 
     // Constructor
     public Monkey(String name, String breed, String gender, String age,
@@ -33,7 +36,6 @@ public class Monkey extends RescueAnimal {
         setTrainingStatus(trainingStatus);
         setReserved(reserved);
         setInServiceCountry(inServiceCountry);
-
     }
 
     // Accessor Method
@@ -47,6 +49,16 @@ public class Monkey extends RescueAnimal {
     }
 
     public void setSpecies(species){
-        species = species
+        /* Check the species list for monkeys*/
+        if(speciesList.contains(species.toLowerCase())){
+            species = species;
+        } else {
+            species = "";
+        }
+    }
+
+    public String getSpecies(){
+        /* Return the species list for monkeys */
+        return species;
     }
 }
