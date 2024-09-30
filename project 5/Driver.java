@@ -5,8 +5,7 @@
 *  5.4 Menu Loop and Monkey Intake
 ****************************/
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Driver {
     private static ArrayList<Dog> dogList = new ArrayList<Dog>();
@@ -14,16 +13,32 @@ public class Driver {
     // Instance variables (if needed)
 
     public static void main(String[] args) {
+        Scanner scnr = new Scanner(System.in);
+        String userInput = "";
         initializeDogList();
         initializeMonkeyList();
+        System.out.println("This is the main function");
 
-        // Add a loop that displays the menu, accepts the users input
-        // and takes the appropriate action.
-	// For the project submission you must also include input validation
-        // and appropriate feedback to the user.
-        // Hint: create a Scanner and pass it to the necessary
-        // methods 
-	// Hint: Menu options 4, 5, and 6 should all connect to the printAnimals() method.
+        while(!userInput.equalsIgnoreCase("q")){
+                displayMenu();
+                userInput = scnr.nextLine();
+                System.out.println(userInput);
+                if (userInput.equalsIgnoreCase("1")){
+                    System.out.println("Add the dogs!");
+                } else if (userInput.equalsIgnoreCase("2")){
+                    System.out.println("Add the monkeys");
+                } else if (userInput.equalsIgnoreCase("3")){
+                    System.out.println("Reserve me!");
+                } else if (userInput.equalsIgnoreCase("4")){
+                    printAnimals("dog");
+                } else if (userInput.equalsIgnoreCase("5")){
+                    printAnimals("monkey");
+                } else if (userInput.equalsIgnoreCase("6")){
+                    printAnimals();
+                } else {
+                    System.out.println("That input is not reconized, please try again.");
+                }
+            }
 
     }
 
@@ -58,7 +73,8 @@ public class Driver {
     // Adds monkeys to a list for testing
     //Optional for testing
     public static void initializeMonkeyList() {
-        Monkey monkey1 = new Monkey("Mankey", "Capuchin", "male", "1", "8.5", "05-12-2019", "Brazil", "intake", false, "United States");
+        Monkey monkey1 = new Monkey("Mankey", "Short Hair", "male", "1", "8.5", "05-12-2019", "Brazil", "intake", false, "United States", 22.3, 
+    11.1, 2.1, "Capuchin");
 
         monkeyList.add(monkey1);
     }
@@ -93,13 +109,13 @@ public class Driver {
                     System.out.println("\n\nThis Monkey is already in our system\n\n");
                     return; //returns to menu
                 }
+            }
         }
 
         // Complete reserveAnimal
         // You will need to find the animal by animal type and in service country
         public static void reserveAnimal(Scanner scanner) {
             System.out.println("The method reserveAnimal needs to be implemented");
-
         }
 
         // Complete printAnimals
@@ -116,6 +132,10 @@ public class Driver {
 	// To score "exemplary" you must correctly implement the "available" list.
         public static void printAnimals() {
             System.out.println("The method printAnimals needs to be implemented");
+
+        }
+        public static void printAnimals(String animal) {
+            System.out.println("The method printAnimals needs to be implemented; animals");
 
         }
 }
