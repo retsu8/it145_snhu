@@ -6,6 +6,8 @@
 ****************************/
 
 import java.util.*;
+import java.time.*;
+import java.lang.Double;
 
 public class Driver {
     private static ArrayList<Dog> dogList = new ArrayList<Dog>();
@@ -24,9 +26,9 @@ public class Driver {
                 userInput = scnr.nextLine();
                 System.out.println(userInput);
                 if (userInput.equalsIgnoreCase("1")){
-                    System.out.println("Add the dogs!");
+                    intakeNewDog(scnr);
                 } else if (userInput.equalsIgnoreCase("2")){
-                    System.out.println("Add the monkeys");
+                    intakeNewMonkey(scnr);
                 } else if (userInput.equalsIgnoreCase("3")){
                     System.out.println("Reserve me!");
                 } else if (userInput.equalsIgnoreCase("4")){
@@ -73,16 +75,13 @@ public class Driver {
     // Adds monkeys to a list for testing
     //Optional for testing
     public static void initializeMonkeyList() {
-        Monkey monkey1 = new Monkey("Mankey", "Short Hair", "male", "1", "8.5", "05-12-2019", "Brazil", "intake", false, "United States", 22.3, 
-    11.1, 2.1, "Capuchin");
+        Monkey monkey1 = new Monkey("Mankey", "Short Hair", "male", "1", "8.5", "05-12-2019", "Brazil", "intake", false, "United States", "22.3", 
+    "11.1", "2.1", "Capuchin");
 
         monkeyList.add(monkey1);
     }
 
-
     // Complete the intakeNewDog method
-    // The input validation to check that the dog is not already in the list
-    // is done for you
     public static void intakeNewDog(Scanner scanner) {
         System.out.println("What is the dog's name?");
         String name = scanner.nextLine();
@@ -92,8 +91,127 @@ public class Driver {
                 return; //returns to menu
             }
         }
+        // Creat the new dog with name
+        Dog dog = new Dog();
+        dog.setName(name);
 
-        // Add the code to instantiate a new dog and add it to the appropriate list
+        // Get the dog breed
+        System.out.println("What breed is " + name + "?");
+        dog.setBreed(scanner.nextLine());
+
+        // Get the gender of the dog
+        String gender;
+        System.out.println("What gender is " + name + "? (Male/Female)");
+        while (true){
+            gender = scanner.nextLine();
+            if (gender.equalsIgnoreCase("Male")){
+                dog.setGender("Male");
+            } else if (gender.equalsIgnoreCase("Female")){
+                dog.setGender("Female");
+            } else {
+                System.out.println("Input not reconized, enter only Male/Female");
+                continue;
+            }
+            break;
+        }
+
+        // Get the dogs age
+        int age;
+        System.out.println("What age is " + name + "?");
+        while (true){
+            try {
+                age = scanner.nextInt();
+                if (age > 0 && age <= 30){
+                    // Convert the age to a string and add it to dog, must be string as age should not be mathamaticly used.
+                    dog.setAge(String.valueOf(age));
+                } else if (age <= 0 || age > 30) {
+                    System.out.println("Age not within range of 0 - 30 years; please enter an age in this range.");
+                    continue;
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Input not reconized, enter a number");
+                continue;
+            }
+            scanner.nextLine();
+            break;
+        }
+
+        // Clean the scanner
+        scanner.nextLine();
+        
+        //Get the dogs weight
+        Double weight;
+        System.out.println("How much does " + name + "  weight?");
+        while (true){
+            try {
+                weight = scanner.nextDouble();
+                if (weight > 0.0 && weight <= 250.0){
+                    dog.setWeight(String.valueOf(weight));
+                } else if (weight <= 0.0 || weight > 250.0) {
+                    System.out.println("Weight not within range of 0 - 250 pounds.");
+                    continue;
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Input not reconized, enter a number");
+                continue;
+            }
+            scanner.nextLine();
+            break;
+        }
+
+
+        // Getting todays date to make sure the day of arrival makes sense
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Date tomorrow = calendar.getTime();
+
+        // Get the acquisitionDate
+        System.out.println("When did " + name + "  arrive? Date format YYYY-MM-DD");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("u-M-D", Locale.ENGLISH);
+        LocalDate date;
+        while(true){
+            try {
+                date = LocalDate.parse(scanner.nextLine().trim(), formatter);
+                if (date.compareTo(tomorrow) < 0){
+                    dog.setAcquisitionDate(date);
+                } else if (date.compareTo(tomorrow) > 0) {
+                    System.out.println("Date is in the future?");
+                    continue;
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Input not a date, please try again");
+                continue;
+            }
+            break;
+        }
+        
+        // Get the acquisitionDate
+        System.out.println("Where did " + name + "  come from?");
+        dog.setAcquisitionLocation(scanner.nextLine());
+
+        // Get the trainingStatus
+        System.out.println("How much has " + name + "  been trained?");
+        dog.setTrainingStatus(scanner.nextLine());
+
+        // Get the if reserved
+        String trained;
+        while (true){
+            System.out.println("How much has " + name + "  been trained?(yes/no)");
+            trained = scanner.nextLine();
+            if (trained.equalsIgnoreCase("yes")){
+                dog.setReserved(true);
+            } else if (trained.equalsIgnoreCase("no")){
+                dog.setReserved(false);
+            } else {
+                System.out.println("Input not reconized, enter only yes/no");
+                continue;
+            }
+            break;
+        }
+
+        // Get Country of service
+        System.out.println("Which county is " + name + "  living?");
+        dog.setInServiceCountry(scanner.nextLine());
     }
 
 
@@ -106,7 +224,7 @@ public class Driver {
             String name = scanner.nextLine();
             for(Monkey monkey: monkeyList) {
                 if(monkey.getName().equalsIgnoreCase(name)) {
-                    System.out.println("\n\nThis Monkey is already in our system\n\n");
+                    System.out.println("\n\nThis monkey is already in our system\n\n");
                     return; //returns to menu
                 }
             }

@@ -26,6 +26,10 @@ public class Dog extends RescueAnimal {
         setInServiceCountry(inServiceCountry);
 
     }
+    // Build empty controcture for new dogs
+    public Dog(){
+
+    }
 
     // Accessor Method
     public String getBreed() {
