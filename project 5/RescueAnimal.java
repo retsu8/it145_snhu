@@ -116,13 +116,9 @@ public class RescueAnimal {
 		this.inServiceCountry = inServiceCountry;
 	}
 
-
-
-
 	public String getTrainingStatus() {
 		return trainingStatus;
 	}
-
 
 	public void setTrainingStatus(String trainingStatus) {
 		this.trainingStatus = trainingStatus;

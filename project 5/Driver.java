@@ -110,25 +110,10 @@ public class Driver {
         }
     }
 
-    public static String getTrainingStatus(String name, Scanner scanner){
-        // Setting training to yes or no as scale was not included for training amount.
-        String trained;
-        System.out.println("Has " + name + "  been trained? (yes/no)");
-        while (true){
-            trained = scanner.nextLine().trim();
-            if (trained.equalsIgnoreCase("yes")){
-                return "yes";
-            } else if (trained.equalsIgnoreCase("no")){
-                return "no";
-            } else {
-                System.out.println("Input not reconized, enter only yes/no");
-            }
-        }
-    }
-
     public static Boolean getReserved(String name, Scanner scanner){
+        /* get the reserved status of the animal */
         String reserved;
-        System.out.println("Is " + name + "  reserved?(yes/no)");
+        System.out.println("Is " + name + " reserved?(yes/no)");
         while (true){
             reserved = scanner.nextLine().trim();
             if (reserved.equalsIgnoreCase("yes")){
@@ -198,7 +183,7 @@ public class Driver {
     public static String getAge(String name, Scanner scanner){
         /* Get the animals age; set age max to 30 as it is gnerally higher than the lifespan of the rescue animals */
         int age;
-        System.out.println("What age is " + name + "?");
+        System.out.println("How old is " + name + "?");
         while (true){
             try {
                 age = scanner.nextInt();
@@ -223,6 +208,9 @@ public class Driver {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date tomorrow = calendar.getTime();
+
+        // Make sure the date is not to old to make sense
+        calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -30);
         Date longAgo = calendar.getTime();
 
@@ -234,12 +222,12 @@ public class Driver {
             try {
                 date = formatter.parse(scanner.nextLine().trim());
                 System.out.println(date);
-                if (date.compareTo(tomorrow) > 0 && date.compareTo(longAgo) < 0){
+                if (date.before(tomorrow) && date.after(longAgo)){
                     return formatter.format(date);
-                } else if (date.compareTo(tomorrow) < 0) {
+                } else if (date.after(tomorrow)) {
                     System.out.println("Date needs to be before " + tomorrow);
                 } else {
-                    System.out.println("Date is to long ago, please reinter");
+                    System.out.println("Date needs to be after " + longAgo);
                 }
                 continue;
             } catch (InputMismatchException | ParseException e){
@@ -283,7 +271,8 @@ public class Driver {
         dog.setAcquisitionLocation(getAcquisitionLocation(name, scanner));
 
         // Get dog trained
-        dog.setTrainingStatus(getTrainingStatus(name, scanner));
+        System.out.println("What phase is " + name + "  in training?");
+        dog.setTrainingStatus(scanner.nextLine());
 
         // Set if dog reserved
         dog.setReserved(getReserved(name, scanner));
@@ -295,7 +284,7 @@ public class Driver {
         dogList.add(dog);
 
         // FIX remove this on finish
-        System.out.println(dog);
+        System.out.println(dog.toString());
         System.out.println("\n\n\nApplication is now complete going to main menu");
     }
 
@@ -336,16 +325,87 @@ public class Driver {
         monkey.setAcquisitionLocation(getAcquisitionLocation(name, scanner));
 
         // Get monkey trained
-        monkey.setTrainingStatus(getTrainingStatus(name, scanner));
+        System.out.println("What phase is " + name + " in training?");
+        monkey.setTrainingStatus(scanner.nextLine());
 
         // Set if dog reserved
         monkey.setReserved(getReserved(name, scanner));
 
-        String tailLength, String height, String bodyLength
-
         System.out.println("What species is " + name + "?");
-        monkey.setSpecies(scanner.nextLine());
+        System.out.println("Please use Capuchin, Guenon, Macaque, Marmoset, Squirrel Monkey, Tamarin");
+        String species = "";
+        while(species.isEmpty()){
+            species = scanner.nextLine();
+            monkey.setSpecies(species);
+            species = monkey.getSpecies();
+            if (species.isEmpty()){
+                System.out.println("Incorrect species, reinter the species.");
+            }
+        }
 
+        // Get the monkeys body length
+        Double bodyLength;
+        System.out.println("How long is " + name + " body?");
+        while (true){
+            try {
+                bodyLength = scanner.nextDouble();
+                if (bodyLength > 0.0 && bodyLength <= 50.0){
+                    // Clean the scanner to handle the next variable
+                    scanner.nextLine();
+                    monkey.setBodyLength(String.valueOf(bodyLength));
+                    break;
+                } else if (bodyLength <= 0.0 || bodyLength > 50.0) {
+                    System.out.println("Body Length not within range of 0 - 50 inches.");
+                    continue;
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Input not reconized, enter a number");
+                continue;
+            }
+        }
+
+        // Get the monkeys height
+        Double height;
+        System.out.println("How tall is " + name + "?");
+        while (true){
+            try {
+                height = scanner.nextDouble();
+                if (height > 0.0 && height <= 55.0){
+                    // Clean the scanner to handle the next variable
+                    scanner.nextLine();
+                    monkey.setHeight(String.valueOf(height));
+                    break;
+                } else if (height <= 0.0 || height > 55.0) {
+                    System.out.println("Height not within range of 0 - 55 inches.");
+                    continue;
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Input not reconized, enter a number");
+                continue;
+            }
+        }
+
+        // Get the monkeys tailLength
+        Double tailLength;
+        System.out.println("How long is " + name + " tail?");
+        while (true){
+            try {
+                tailLength = scanner.nextDouble();
+                if (tailLength > 0.0 && tailLength <= 50.0){
+                    // Clean the scanner to handle the next variable
+                    scanner.nextLine();
+                    monkey.setHeight(String.valueOf(tailLength));
+                    break;
+                } else if (tailLength <= 0.0 || tailLength > 50.0) {
+                    System.out.println("Tail Length not within range of 0 - 55 inches.");
+                    continue;
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Input not reconized, enter a number");
+                continue;
+            }
+        }
+        // Add the new monkey to the database
         monkeyList.add(monkey);
 
         // FIX remove this on finish
