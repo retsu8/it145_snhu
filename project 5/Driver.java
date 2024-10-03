@@ -7,19 +7,31 @@
 
 import java.util.*;
 import java.time.*;
+import java.text.*;
 import java.lang.Double;
 
 public class Driver {
     private static ArrayList<Dog> dogList = new ArrayList<Dog>();
     private static ArrayList<Monkey> monkeyList = new ArrayList<Monkey>();
-    // Instance variables (if needed)
+    private static String dateFormatPattern = "yyyy-MM-dd";
+    private static Locale[] locales = Locale.getAvailableLocales();
+    private static Set<String> countrySet = new java.util.HashSet<>();
 
+    // Instance variables (if needed)
     public static void main(String[] args) {
         Scanner scnr = new Scanner(System.in);
         String userInput = "";
         initializeDogList();
         initializeMonkeyList();
         System.out.println("This is the main function");
+
+        // Create a list of countries for the user to select from
+        for (Locale locale : locales) {
+            String country = locale.getDisplayCountry();
+            if (!country.isEmpty()) {
+                countrySet.add(country);
+            }
+        }
 
         while(!userInput.equalsIgnoreCase("q")){
                 displayMenu();
@@ -95,7 +107,7 @@ public class Driver {
         Dog dog = new Dog();
         dog.setName(name);
 
-        // Get the dog breed
+/*        // Get the dog breed
         System.out.println("What breed is " + name + "?");
         dog.setBreed(scanner.nextLine());
 
@@ -135,13 +147,10 @@ public class Driver {
             scanner.nextLine();
             break;
         }
-
-        // Clean the scanner
-        scanner.nextLine();
         
         //Get the dogs weight
         Double weight;
-        System.out.println("How much does " + name + "  weight?");
+        System.out.println("How much does " + name + " weight?");
         while (true){
             try {
                 weight = scanner.nextDouble();
@@ -166,38 +175,62 @@ public class Driver {
         Date tomorrow = calendar.getTime();
 
         // Get the acquisitionDate
-        System.out.println("When did " + name + "  arrive? Date format YYYY-MM-DD");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("u-M-D", Locale.ENGLISH);
-        LocalDate date;
+        System.out.println("When did " + name + " arrive? Date format YYYY-MM-DD");
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormatPattern, Locale.ENGLISH); 
+        Date date;
         while(true){
             try {
-                date = LocalDate.parse(scanner.nextLine().trim(), formatter);
-                if (date.compareTo(tomorrow) < 0){
-                    dog.setAcquisitionDate(date);
-                } else if (date.compareTo(tomorrow) > 0) {
+                date = formatter.parse(scanner.nextLine().trim());
+                System.out.println(date);
+                if (date.compareTo(tomorrow) > 0){
+                    dog.setAcquisitionDate(formatter.format(date));
+                } else if (date.compareTo(tomorrow) < 0) {
                     System.out.println("Date is in the future?");
                     continue;
                 }
-            } catch (InputMismatchException e){
+            } catch (InputMismatchException | ParseException e){
                 System.out.println("Input not a date, please try again");
                 continue;
             }
             break;
+        }*/
+
+        // Get the acqusition location
+        String country;
+        System.out.println("Which county did " + name + " come from?");
+        while (true){
+            country = scanner.nextLine().trim();
+            if (countrySet.contains(country)){
+                dog.setAcquisitionLocation(country);
+            } else {
+                System.out.println("Input not reconized, please enter a country");
+                System.out.println(countrySet.toString());
+                continue;
+            }
+            break;
         }
-        
-        // Get the acquisitionDate
-        System.out.println("Where did " + name + "  come from?");
-        dog.setAcquisitionLocation(scanner.nextLine());
 
         // Get the trainingStatus
-        System.out.println("How much has " + name + "  been trained?");
-        dog.setTrainingStatus(scanner.nextLine());
+        String trained;
+        System.out.println("Has " + name + "  been trained? (yes/no)");
+        while (true){
+            trained = scanner.nextLine().trim();
+            if (trained.equalsIgnoreCase("yes")){
+                dog.setTrainingStatus("yes");
+            } else if (trained.equalsIgnoreCase("no")){
+                dog.setTrainingStatus("no");
+            } else {
+                System.out.println("Input not reconized, enter only yes/no");
+                continue;
+            }
+            break;
+        }
 
         // Get the if reserved
-        String trained;
+        String reserved;
+        System.out.println("Is " + name + "  reserved?(yes/no)");
         while (true){
-            System.out.println("How much has " + name + "  been trained?(yes/no)");
-            trained = scanner.nextLine();
+            reserved = scanner.nextLine().trim();
             if (trained.equalsIgnoreCase("yes")){
                 dog.setReserved(true);
             } else if (trained.equalsIgnoreCase("no")){
@@ -210,8 +243,19 @@ public class Driver {
         }
 
         // Get Country of service
-        System.out.println("Which county is " + name + "  living?");
-        dog.setInServiceCountry(scanner.nextLine());
+        System.out.println("Which county is " + name + "  living in?");
+        while (true){
+            country = scanner.nextLine().trim();
+            if (countrySet.contains(country)){
+                dog.setInServiceCountry(country);
+            } else {
+                System.out.println("Input not reconized, please enter a country");
+                System.out.println(countrySet.toString());
+                continue;
+            }
+            break;
+        }
+        System.out.println("\n\n\nApplication is now complete going to main menu");
     }
 
 
