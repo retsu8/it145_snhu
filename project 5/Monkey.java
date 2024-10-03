@@ -45,6 +45,10 @@ public class Monkey extends RescueAnimal {
         setInServiceCountry(inServiceCountry);
     }
 
+    public Monkey(){
+        /* Empty class initialization to add in monkey classes */
+    }
+
     // Accessor Method
     public String getBreed() {
         return breed;
