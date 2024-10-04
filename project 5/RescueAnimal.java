@@ -123,4 +123,14 @@ public class RescueAnimal {
 	public void setTrainingStatus(String trainingStatus) {
 		this.trainingStatus = trainingStatus;
 	}
+
+	// Override tostring to get the information needed.
+	@Override
+	public String toString(){
+		// Building tostring overide Include the animal name, status, acquisition country and if the animal is reserved.
+		return "Name: " + this.getName() + 
+			", Status: " + this.getTrainingStatus() +
+			", Acquisition Country: " + this.getAcquisitionLocation() +
+			", Reserved: " + this.getReserved();
+	}
 }

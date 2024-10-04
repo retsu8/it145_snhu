@@ -6,6 +6,7 @@
 ****************************/
 
 import java.util.*;
+import java.util.stream.*;
 import java.time.*;
 import java.text.*;
 import java.lang.Double;
@@ -42,19 +43,20 @@ public class Driver {
         while(!userInput.equalsIgnoreCase("q")){
                 displayMenu();
                 userInput = scnr.nextLine();
-                System.out.println(userInput);
                 if (userInput.equalsIgnoreCase("1")){
                     intakeNewDog(scnr);
                 } else if (userInput.equalsIgnoreCase("2")){
                     intakeNewMonkey(scnr);
                 } else if (userInput.equalsIgnoreCase("3")){
-                    System.out.println("Reserve me!");
+                    reserveAnimal(scnr);
                 } else if (userInput.equalsIgnoreCase("4")){
                     printAnimals("dog");
                 } else if (userInput.equalsIgnoreCase("5")){
                     printAnimals("monkey");
                 } else if (userInput.equalsIgnoreCase("6")){
                     printAnimals();
+                } else if (userInput.equalsIgnoreCase("q")){
+                    System.out.println("Quiting applicaiton...");
                 } else {
                     System.out.println("That input is not reconized, please try again.");
                 }
@@ -283,8 +285,6 @@ public class Driver {
         // Dog inputs are finished, adding to doggy list
         dogList.add(dog);
 
-        // FIX remove this on finish
-        System.out.println(dog.toString());
         System.out.println("\n\n\nApplication is now complete going to main menu");
     }
 
@@ -296,12 +296,16 @@ public class Driver {
     public static void intakeNewMonkey(Scanner scanner) {
         System.out.println("What is the monkeys's name?");
         String name = scanner.nextLine();
+
+        // Check if we already took in this monkey
         for(Monkey monkey: monkeyList) {
             if(monkey.getName().equalsIgnoreCase(name)) {
                 System.out.println("\n\nThis monkey is already in our system\n\n");
                 return; //returns to menu
             }
         }
+
+        // Create a new monkey to intake
         Monkey monkey = new Monkey();
         monkey.setName(name);
 
@@ -387,10 +391,11 @@ public class Driver {
 
         // Get the monkeys tailLength
         Double tailLength;
-        System.out.println("How long is " + name + " tail?");
+        System.out.println("How long is " + name + " tail in inches?");
         while (true){
             try {
                 tailLength = scanner.nextDouble();
+                // Set this variable in inches to make sense of tail length
                 if (tailLength > 0.0 && tailLength <= 50.0){
                     // Clean the scanner to handle the next variable
                     scanner.nextLine();
@@ -413,30 +418,139 @@ public class Driver {
         System.out.println("\n\n\nApplication is now complete going to main menu");
     }
 
-    // Complete reserveAnimal
-    // You will need to find the animal by animal type and in service country
     public static void reserveAnimal(Scanner scanner) {
-        System.out.println("The method reserveAnimal needs to be implemented");
+        /* You will need to find the animal by animal type and in service country*/
+        // Get either a monkey or dog to process.
+        String animalType = "";
+        while(animalType.isEmpty()){
+            System.out.println("Would you like to reserve a monkey or a dog?");
+            animalType = scanner.nextLine();
+            if (animalType.equalsIgnoreCase("dog")){
+                animalType = "dog";
+            } else if (animalType.equalsIgnoreCase("monkey")) {
+                animalType = "monkey";
+            } else {
+                animalType = "";
+            }
+        }
+
+        // Switch to the animal to check out.
+        switch (animalType){
+            case "dog":
+                System.out.println("Which dog would you like to reserve?");
+                for (int i = 0; i < dogList.size(); i++) {
+                    Dog dog = dogList.get(i);
+                    if(!dog.getReserved()) {
+                        // Print dogs to the list
+                        System.out.println("[" + i + "] Name: " + dog.getName());
+                    }
+                }
+
+                System.out.println("Please include the name or index number");
+                while (true){
+                    try {
+                        // Select the dog from the index value
+                        int userInput = scanner.nextInt();
+                        Dog dog = dogList.get(userInput);
+                        System.out.println("Setting " + dog.getName() + " to reserved.");
+                        dog.setReserved(true);
+
+                        // Clean the scanner
+                        scanner.nextLine();
+                        return;
+                    } catch (InputMismatchException e){
+                        String userInput = scanner.nextLine();
+                        for(Dog dog: dogList) {
+                            // Find the dog named => userinput
+                            if(dog.getName().equalsIgnoreCase(userInput)) {
+                                // Set the dog to reserved
+                                System.out.println("Setting " + dog.getName() + " to reserved.");
+                                dog.setReserved(true);
+                                return;
+                            }
+                        }
+                    }
+                } 
+            case "monkey":
+                System.out.println("Which monkey would you like to reserve?");
+                for (int i = 0; i < monkeyList.size(); i++) {
+                    Monkey monkey = monkeyList.get(i);
+                    if(!monkey.getReserved()) {
+                        // Print dogs to the list
+                        System.out.println("[" + i + "] Name: " + monkey.getName());
+                    }
+                }
+                System.out.println("Please include the name or index number");
+                while (true){
+                    try {
+                        // Select the monkey from the index value
+                        int userInput = scanner.nextInt();
+                        Monkey monkey = monkeyList.get(userInput);
+                        System.out.println("Setting " + monkey.getName() + " to reserved.");
+                        monkey.setReserved(true);
+
+                        // Clean the scanner
+                        scanner.nextLine();
+                        return;
+                    } catch (InputMismatchException e){
+                        String userInput = scanner.nextLine();
+                        for(Monkey monkey: monkeyList) {
+                            // Find the monkey named => userinput
+                            if(monkey.getName().equalsIgnoreCase(userInput)) {
+                                // Set the monkey to reserved
+                                System.out.println("Setting " + monkey.getName() + " to reserved.");
+                                monkey.setReserved(true);
+                                return;
+                            }
+                        }
+                    }
+                } 
+        }
     }
 
-    // Complete printAnimals
-    // Include the animal name, status, acquisition country and if the animal is reserved.
-	// Remember that this method connects to three different menu items.
-    // The printAnimals() method has three different outputs
-    // based on the listType parameter
-    // dog - prints the list of dogs
-    // monkey - prints the list of monkeys
-    // available - prints a combined list of all animals that are
-    // fully trained ("in service") but not reserved 
-	// Remember that you only have to fully implement ONE of these lists. 
-	// The other lists can have a print statement saying "This option needs to be implemented".
-	// To score "exemplary" you must correctly implement the "available" list.
     public static void printAnimals() {
-        System.out.println("The method printAnimals needs to be implemented");
+        /* This function prints a list of animals that are in service but not reserved */
+        // Build a list of monkeys that are in service but not reserved.
+        List<Monkey> reservedMonkeys = monkeyList.stream()
+              .filter(monkey -> !monkey.getReserved() && monkey.getTrainingStatus().equalsIgnoreCase("in service"))
+              .collect(Collectors.toList());
+
+        // Build a list of dogs that are in service but not reserved
+        List<Dog> reservedDogs = dogList.stream()
+              .filter(dog -> !dog.getReserved() && dog.getTrainingStatus().equalsIgnoreCase("in service"))
+              .collect(Collectors.toList());
+        
+        System.out.println("These monkeys are reservable.");
+        for(Monkey monkey: reservedMonkeys ){
+            System.out.println(monkey.toString());
+        }
+
+        System.out.println("\nThese dogs are reservable.");
+        for(Dog dog: reservedDogs ){
+            System.out.println(dog.toString());
+        }
+
 
     }
     public static void printAnimals(String animal) {
-        System.out.println("The method printAnimals needs to be implemented; animals");
+        /* This function prints a a list of selected animals in the system */
+        switch (animal) {
+            case "dog":
+                // Print the list of dogs that are in the system
+                for(Dog dog: dogList ){
+                    System.out.println(dog.toString());
+                }
+                break;
+            case "monkey":
+                // Print the list of monkeys that are in the system
+                for(Monkey monkey: monkeyList){
+                    System.out.println(monkey.toString());
+                }
+                break;
+            default:
+                // Create a default in case its ever needed.
+                System.out.println("We have no idea how you managed to get here ?");
+            }
 
     }
 }
