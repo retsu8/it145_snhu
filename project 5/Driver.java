@@ -26,46 +26,60 @@ public class Driver {
 
     // Instance variables (if needed)
     public static void main(String[] args) {
+        // This is the main function for setting up needed attributes
         Scanner scnr = new Scanner(System.in);
-        String userInput = "";
+        // Initialize dogs
         initializeDogList();
+        // Initialize monkeys
         initializeMonkeyList();
         System.out.println("This is the main function");
 
         // Create a list of countries for the user to select from
         for (Locale locale : locales) {
             String country = locale.getDisplayCountry();
+            // make sure the country has content from locales
             if (!country.isEmpty()) {
                 countrySet.add(country);
             }
         }
 
+        // Create user input to handle the menu
+        String userInput = "";
         while(!userInput.equalsIgnoreCase("q")){
-                displayMenu();
-                userInput = scnr.nextLine();
-                if (userInput.equalsIgnoreCase("1")){
-                    intakeNewDog(scnr);
-                } else if (userInput.equalsIgnoreCase("2")){
-                    intakeNewMonkey(scnr);
-                } else if (userInput.equalsIgnoreCase("3")){
-                    reserveAnimal(scnr);
-                } else if (userInput.equalsIgnoreCase("4")){
-                    printAnimals("dog");
-                } else if (userInput.equalsIgnoreCase("5")){
-                    printAnimals("monkey");
-                } else if (userInput.equalsIgnoreCase("6")){
-                    printAnimals();
-                } else if (userInput.equalsIgnoreCase("q")){
-                    System.out.println("Quiting applicaiton...");
-                } else {
-                    System.out.println("That input is not reconized, please try again.");
-                }
+            // Show the menu and loop tell we get and answer
+            displayMenu();
+            userInput = scnr.nextLine();
+            // Do the first input new dog
+            if (userInput.equalsIgnoreCase("1")){
+                intakeNewDog(scnr);
+            // Do the second input new monkey
+            } else if (userInput.equalsIgnoreCase("2")){
+                intakeNewMonkey(scnr);
+            // Show the reserved rescue animals
+            } else if (userInput.equalsIgnoreCase("3")){
+                reserveAnimal(scnr);
+            // Print the list of dogs
+            } else if (userInput.equalsIgnoreCase("4")){
+                printAnimals("dog");
+            // Print the list of monkeys
+            } else if (userInput.equalsIgnoreCase("5")){
+                printAnimals("monkey");
+            // print all the animals that are ready and not reserved
+            } else if (userInput.equalsIgnoreCase("6")){
+                printAnimals();
+            // Quite the application
+            } else if (userInput.equalsIgnoreCase("q")){
+                System.out.println("Quiting applicaiton...");
+            // Junk input get another one.
+            } else {
+                System.out.println("That input is not reconized, please try again.");
             }
+        }
 
     }
 
-    // This method prints the menu options
     public static void displayMenu() {
+        /* This method prints the menu options */
         System.out.println("\n\n");
         System.out.println("\t\t\t\tRescue Animal System Menu");
         System.out.println("[1] Intake a new dog");
@@ -80,22 +94,29 @@ public class Driver {
     }
 
     public static void initializeDogList() {
-        // Adds dogs to a list for testing
+        /* Adds dogs to a list for testing */
+        // Create the dogs via the constructor
         Dog dog1 = new Dog("Spot", "German Shepherd", "male", "1", "25.6", "05-12-2019", "United States", "intake", false, "United States");
         Dog dog2 = new Dog("Rex", "Great Dane", "male", "3", "35.2", "02-03-2020", "United States", "Phase I", false, "United States");
         Dog dog3 = new Dog("Bella", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", true, "Canada");
 
+        // Add the dogs here
         dogList.add(dog1);
         dogList.add(dog2);
         dogList.add(dog3);
     }
 
     public static void initializeMonkeyList() {
-        // Adds monkeys to a list for testing
+        /* Adds monkeys to a list for testing */
+        // Create the monkeys here with the contructor.
         Monkey monkey1 = new Monkey("Mankey", "Short Hair", "male", "1", "8.5", "05-12-2019", "Brazil", "intake", false, "United States", "22.3", 
     "11.1", "2.1", "Capuchin");
+        Monkey monkey2 = new Monkey("Figles", "Howler", "female", "1.115", "9.2", "05-10-2019", "Uganda", "in service", false, "United States", "22.3", 
+    "11.1", "2.1", "Capuchin");
 
+        // Add in the monkeys
         monkeyList.add(monkey1);
+        monkeyList.add(monkey2);
     }
 
     public static String getServiceCountry(String name, Scanner scanner){
@@ -117,6 +138,7 @@ public class Driver {
         String reserved;
         System.out.println("Is " + name + " reserved?(yes/no)");
         while (true){
+            // Get rather reserved and return boolean value.
             reserved = scanner.nextLine().trim();
             if (reserved.equalsIgnoreCase("yes")){
                 return true;
@@ -145,14 +167,18 @@ public class Driver {
 
     public static String getWeight(String name, Scanner scanner){
         /* get the animals weight
-        Also check to make sure they are not overweight */
+        Also check to make sure they are not entering a random number */
         Double weight;
         System.out.println("How much does " + name + " weight?");
         while (true){
             try {
+                // Get the next double
                 weight = scanner.nextDouble();
+                // Check to make sure its a sensable value
                 if (weight > 0.0 && weight <= 250.0){
+                    // clean the scanner head.
                     scanner.nextLine();
+                    // Return a string of this value since we should not perform math without reslizing it on a static weight.
                     return String.valueOf(weight);
                 } else if (weight <= 0.0 || weight > 250.0) {
                     System.out.println("Weight not within range of 0 - 250 pounds.");
@@ -171,6 +197,7 @@ public class Driver {
         System.out.println("What gender is " + name + "? (Male/Female)");
         while (true){
             gender = scanner.nextLine();
+            // Getting simple gender concept.
             if (gender.equalsIgnoreCase("Male")){
                 return "Male";
             } else if (gender.equalsIgnoreCase("Female")){
@@ -190,7 +217,8 @@ public class Driver {
             try {
                 age = scanner.nextInt();
                 if (age > 0 && age <= 30){
-                    // Convert the age to a string and add it to dog, must be string as age should not be mathamaticly used.
+                    // Convert the age to a string and add it to dog, must be string as age will be generally used as string
+                    // Clean scanner for new inputjava.beans.
                     scanner.nextLine();
                     return String.valueOf(age);
                 } else {
@@ -213,6 +241,7 @@ public class Driver {
 
         // Make sure the date is not to old to make sense
         calendar = Calendar.getInstance();
+        // This should really be setup by the customer but using static for now until otherwise noted
         calendar.add(Calendar.YEAR, -30);
         Date longAgo = calendar.getTime();
 
@@ -222,17 +251,22 @@ public class Driver {
         Date date;
         while(true){
             try {
+                // Build date formatter to handle datetime
                 date = formatter.parse(scanner.nextLine().trim());
                 System.out.println(date);
+                // Check to make sure the date is reasonable
                 if (date.before(tomorrow) && date.after(longAgo)){
                     return formatter.format(date);
+                // This date is to after tomarrow, cant add a dog/monkey on a day that has yet to even come
                 } else if (date.after(tomorrow)) {
                     System.out.println("Date needs to be before " + tomorrow);
+                // Else the date is to old, dog/monkey really should not be in system any longer
                 } else {
                     System.out.println("Date needs to be after " + longAgo);
                 }
                 continue;
             } catch (InputMismatchException | ParseException e){
+                // Invalid date input, keeping input type mismatch to include propable cases.
                 System.out.println("Input not a date, please try again");
                 continue;
             }
@@ -251,6 +285,7 @@ public class Driver {
         }
         // Creat the new dog with name
         Dog dog = new Dog();
+        // Leavingt the name here as is since generally wouldnt use numbers
         dog.setName(name);
 
         // Get the dog breed
@@ -338,12 +373,15 @@ public class Driver {
         System.out.println("What species is " + name + "?");
         System.out.println("Please use Capuchin, Guenon, Macaque, Marmoset, Squirrel Monkey, Tamarin");
         String species = "";
+        // Check to make sure the species if filled in correctly in accepted species.
         while(species.isEmpty()){
+            // Get species and check if correct
             species = scanner.nextLine();
             monkey.setSpecies(species);
+            // Check if species accecpted or ask again.
             species = monkey.getSpecies();
             if (species.isEmpty()){
-                System.out.println("Incorrect species, reinter the species.");
+                System.out.println("Species not reconized, re-enter the species.");
             }
         }
 
@@ -353,9 +391,11 @@ public class Driver {
         while (true){
             try {
                 bodyLength = scanner.nextDouble();
+                // Check to make sure body length is reasonable
                 if (bodyLength > 0.0 && bodyLength <= 50.0){
                     // Clean the scanner to handle the next variable
                     scanner.nextLine();
+                    // Set as a string here so its not accidently mathed.
                     monkey.setBodyLength(String.valueOf(bodyLength));
                     break;
                 } else if (bodyLength <= 0.0 || bodyLength > 50.0) {
@@ -374,9 +414,11 @@ public class Driver {
         while (true){
             try {
                 height = scanner.nextDouble();
+                // Making sure height is reasonable
                 if (height > 0.0 && height <= 55.0){
                     // Clean the scanner to handle the next variable
                     scanner.nextLine();
+                    // Returing string so not accidently mathed
                     monkey.setHeight(String.valueOf(height));
                     break;
                 } else if (height <= 0.0 || height > 55.0) {
@@ -399,6 +441,7 @@ public class Driver {
                 if (tailLength > 0.0 && tailLength <= 50.0){
                     // Clean the scanner to handle the next variable
                     scanner.nextLine();
+                    // Set to string so not accidently mathed
                     monkey.setHeight(String.valueOf(tailLength));
                     break;
                 } else if (tailLength <= 0.0 || tailLength > 50.0) {
@@ -412,9 +455,6 @@ public class Driver {
         }
         // Add the new monkey to the database
         monkeyList.add(monkey);
-
-        // FIX remove this on finish
-        System.out.println(monkey);
         System.out.println("\n\n\nApplication is now complete going to main menu");
     }
 
@@ -423,6 +463,7 @@ public class Driver {
         // Get either a monkey or dog to process.
         String animalType = "";
         while(animalType.isEmpty()){
+            // Get the animal type and send to switch
             System.out.println("Would you like to reserve a monkey or a dog?");
             animalType = scanner.nextLine();
             if (animalType.equalsIgnoreCase("dog")){
@@ -452,6 +493,7 @@ public class Driver {
                         // Select the dog from the index value
                         int userInput = scanner.nextInt();
                         Dog dog = dogList.get(userInput);
+                        // Setting the selected dog to reserved
                         System.out.println("Setting " + dog.getName() + " to reserved.");
                         dog.setReserved(true);
 
@@ -511,20 +553,24 @@ public class Driver {
     public static void printAnimals() {
         /* This function prints a list of animals that are in service but not reserved */
         // Build a list of monkeys that are in service but not reserved.
-        List<Monkey> reservedMonkeys = monkeyList.stream()
+        ArrayList<Monkey> reservedMonkeys = monkeyList.stream()
               .filter(monkey -> !monkey.getReserved() && monkey.getTrainingStatus().equalsIgnoreCase("in service"))
-              .collect(Collectors.toList());
+              .collect(Collectors
+                            .toCollection(ArrayList::new));
 
         // Build a list of dogs that are in service but not reserved
-        List<Dog> reservedDogs = dogList.stream()
+        ArrayList<Dog> reservedDogs = dogList.stream()
               .filter(dog -> !dog.getReserved() && dog.getTrainingStatus().equalsIgnoreCase("in service"))
-              .collect(Collectors.toList());
+              .collect(Collectors
+                            .toCollection(ArrayList::new));
         
-        System.out.println("These monkeys are reservable.");
+        // Reservable monkey list
+        System.out.println("\nThese monkeys are reservable.");
         for(Monkey monkey: reservedMonkeys ){
             System.out.println(monkey.toString());
         }
 
+        // Reserable dog list
         System.out.println("\nThese dogs are reservable.");
         for(Dog dog: reservedDogs ){
             System.out.println(dog.toString());
@@ -533,7 +579,8 @@ public class Driver {
 
     }
     public static void printAnimals(String animal) {
-        /* This function prints a a list of selected animals in the system */
+        /* This function prints a a list of selected animals in the system implenting 
+           Both as this funtion was used to contruct the reserve function */
         switch (animal) {
             case "dog":
                 // Print the list of dogs that are in the system
