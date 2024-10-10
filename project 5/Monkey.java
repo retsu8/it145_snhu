@@ -6,7 +6,6 @@
 ****************************/
 
 import java.util.*;
-import java.lang.Double;
 
 public class Monkey extends RescueAnimal {
 
@@ -16,11 +15,6 @@ public class Monkey extends RescueAnimal {
     private String bodyLength;
     private String species;
     private String tailLength;
-
-    // Creating species list of expected species
-    private final List<String> speciesList = Arrays.asList(
-        "capuchin","guenon","macaque","marmoset","squirrel monkey","tamarin"
-    );
 
     // Constructor
     public Monkey(String name, String breed, String gender, String age,
@@ -46,26 +40,22 @@ public class Monkey extends RescueAnimal {
     }
 
     public Monkey(){
-        /* Empty class initialization to add in monkey classes */
+        /* Create empty constructor for monkey building */
     }
 
-    // Accessor Method
     public String getBreed() {
+        /* Accessor Method get breed */
         return breed;
     }
 
-    // Mutator Method
     public void setBreed(String monkeyBreed) {
+        /* Mutator Method set breed */
         breed = monkeyBreed;
     }
 
     public void setSpecies(String monkeySpecies){
         /* Check the species list for monkeys*/
-        if(speciesList.contains(monkeySpecies.toLowerCase())){
-            species = monkeySpecies;
-        } else {
-            species = "";
-        }
+        species = monkeySpecies;
     }
 
     public String getSpecies(){
@@ -75,13 +65,7 @@ public class Monkey extends RescueAnimal {
 
     public void setHeight(String monkeyHeight){
         /* Set the height of the monkey */
-        // Monkey must have some heigth
-        Double monkeyHeightDouble = Double.parseDouble(monkeyHeight); 
-        if(monkeyHeightDouble > 0){
-            height = monkeyHeight;
-        } else {
-            height = "0.0";
-        }
+        height = monkeyHeight;
     }
 
     public String getHeight(){
@@ -91,13 +75,7 @@ public class Monkey extends RescueAnimal {
 
     public void setBodyLength(String monkeyBodyLength){
         /* Set the monkey body length */
-        /* monkey must have a body of some length */
-        Double monkeyBodyLengthDouble = Double.parseDouble(monkeyBodyLength); 
-        if(monkeyBodyLengthDouble > 0){
-            bodyLength = monkeyBodyLength;
-        } else {
-            bodyLength = "0.0";
-        }
+        bodyLength = monkeyBodyLength;
     }
 
     public String getBodyLength(){
@@ -107,12 +85,7 @@ public class Monkey extends RescueAnimal {
 
     public void setTailLength(String monkeyTail){
         /* monkey must have a tail of some length */
-        Double monkeyTailDouble = Double.parseDouble(monkeyTail); 
-        if(monkeyTailDouble > 0.0){
-            tailLength = monkeyTail;
-        } else {
-            tailLength = "0.0";
-        }
+        tailLength = monkeyTail;
     }
     public String getTailLength(){
         /* Return the monkey tail length */

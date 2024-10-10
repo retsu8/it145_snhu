@@ -15,6 +15,11 @@ public class Driver {
     private static ArrayList<Dog> dogList = new ArrayList<Dog>();
     private static ArrayList<Monkey> monkeyList = new ArrayList<Monkey>();
 
+        // Creating species list of expected species
+    private final ArrayList<String> speciesList = new ArrayList<>(Arrays.asList(
+            "capuchin","guenon","macaque","marmoset","squirrel monkey","tamarin"
+        ));
+
     // Pattern list for date creation input
     private static String dateFormatPattern = "yyyy-MM-dd";
 
@@ -46,33 +51,34 @@ public class Driver {
         // Create user input to handle the menu
         String userInput = "";
         while(!userInput.equalsIgnoreCase("q")){
-            // Show the menu and loop tell we get and answer
+            // Show the menu and loop tell we get an answer
             displayMenu();
-            userInput = scnr.nextLine();
-            // Do the first input new dog
-            if (userInput.equalsIgnoreCase("1")){
-                intakeNewDog(scnr);
-            // Do the second input new monkey
-            } else if (userInput.equalsIgnoreCase("2")){
-                intakeNewMonkey(scnr);
-            // Show the reserved rescue animals
-            } else if (userInput.equalsIgnoreCase("3")){
-                reserveAnimal(scnr);
-            // Print the list of dogs
-            } else if (userInput.equalsIgnoreCase("4")){
-                printAnimals("dog");
-            // Print the list of monkeys
-            } else if (userInput.equalsIgnoreCase("5")){
-                printAnimals("monkey");
-            // print all the animals that are ready and not reserved
-            } else if (userInput.equalsIgnoreCase("6")){
-                printAnimals();
-            // Quite the application
-            } else if (userInput.equalsIgnoreCase("q")){
-                System.out.println("Quiting applicaiton...");
-            // Junk input get another one.
-            } else {
-                System.out.println("That input is not reconized, please try again.");
+            userInput = scnr.nextLine().trim();
+            switch (userInput){
+                // Do the first input new dog
+                case "1":
+                    intakeNewDog(scnr);
+                // Do the second input new monkey
+                case "2":
+                    intakeNewMonkey(scnr);
+                // Show the reserved rescue animals
+                case "3":
+                    reserveAnimal(scnr);
+                // Print the list of dogs
+                case "4":
+                    printAnimals("dog");
+                // Print the list of monkeys
+                case "5":
+                    printAnimals("monkey");
+                // print all the animals that are ready and not reserved
+                case "6":
+                    printAnimals();
+                // Quite the application
+                case "q":
+                    System.out.println("Quiting applicaiton...");
+                // Junk input get another one.
+                default:
+                    System.out.println("That input is not reconized, please try again.");
             }
         }
 
@@ -146,6 +152,22 @@ public class Driver {
                 return false;
             } else {
                 System.out.println("Input not reconized, enter only yes/no");
+            }
+        }
+    }
+
+    public static String getTrainingStatus(String name, Scanner scanner){
+        /* Get the phase of training the animal is in */
+        String phase;
+        System.out.println("Which phase is " + name + " in?");
+        System.out.println("Phase I, Phase II, Phase III, Phase IV, Phase V or Farm");
+        while(true){
+            // Check to make sure there is input
+            phase = scanner.nextLine().trim();
+            if (phase.length() > 0){
+                return phase;
+            } else {
+                System.out.println("Please do enter a phase.");
             }
         }
     }
@@ -285,7 +307,8 @@ public class Driver {
         }
         // Creat the new dog with name
         Dog dog = new Dog();
-        // Leavingt the name here as is since generally wouldnt use numbers
+
+        // Leaving the name here as is since generally wont use numbers
         dog.setName(name);
 
         // Get the dog breed
@@ -308,8 +331,7 @@ public class Driver {
         dog.setAcquisitionLocation(getAcquisitionLocation(name, scanner));
 
         // Get dog trained
-        System.out.println("What phase is " + name + "  in training?");
-        dog.setTrainingStatus(scanner.nextLine());
+        dog.setTrainingStatus(getTrainingStatus(name, scanner));
 
         // Set if dog reserved
         dog.setReserved(getReserved(name, scanner));
@@ -364,8 +386,7 @@ public class Driver {
         monkey.setAcquisitionLocation(getAcquisitionLocation(name, scanner));
 
         // Get monkey trained
-        System.out.println("What phase is " + name + " in training?");
-        monkey.setTrainingStatus(scanner.nextLine());
+        monkey.setTrainingStatus(getTrainingStatus(name, scanner));
 
         // Set if dog reserved
         monkey.setReserved(getReserved(name, scanner));
@@ -377,6 +398,7 @@ public class Driver {
         while(species.isEmpty()){
             // Get species and check if correct
             species = scanner.nextLine();
+
             monkey.setSpecies(species);
             // Check if species accecpted or ask again.
             species = monkey.getSpecies();
