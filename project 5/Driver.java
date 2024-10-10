@@ -15,11 +15,6 @@ public class Driver {
     private static ArrayList<Dog> dogList = new ArrayList<Dog>();
     private static ArrayList<Monkey> monkeyList = new ArrayList<Monkey>();
 
-        // Creating species list of expected species
-    private final ArrayList<String> speciesList = new ArrayList<>(Arrays.asList(
-            "capuchin","guenon","macaque","marmoset","squirrel monkey","tamarin"
-        ));
-
     // Pattern list for date creation input
     private static String dateFormatPattern = "yyyy-MM-dd";
 
@@ -213,6 +208,26 @@ public class Driver {
         }
     }
 
+    public static String getSpecies(String name, Scanner scanner){
+        /* Get the species of the animal */
+        System.out.println("Which species is " + name + "?");
+        System.out.println("Please use Capuchin, Guenon, Macaque, Marmoset, Squirrel Monkey, Tamarin");
+        String species = "";
+        // Check to make sure the species if filled in correctly in accepted species.
+        while(species.isEmpty()){
+            // Get species and check if correct
+            species = scanner.nextLine();
+
+            // Check if an allowed species has been entered.
+            if (monkey.getAcceptedSpecies().contains(species)){
+                return species;
+            } else {
+                species = "";
+                System.out.println("Species not reconized, re-enter the species.");
+            }
+        }
+    }
+
     public static String getGender(String name, Scanner scanner){
         /* Get the gender of the animal and return it. */
         String gender;
@@ -388,24 +403,11 @@ public class Driver {
         // Get monkey trained
         monkey.setTrainingStatus(getTrainingStatus(name, scanner));
 
-        // Set if dog reserved
+        // Set reserved information for monkey
         monkey.setReserved(getReserved(name, scanner));
 
-        System.out.println("What species is " + name + "?");
-        System.out.println("Please use Capuchin, Guenon, Macaque, Marmoset, Squirrel Monkey, Tamarin");
-        String species = "";
-        // Check to make sure the species if filled in correctly in accepted species.
-        while(species.isEmpty()){
-            // Get species and check if correct
-            species = scanner.nextLine();
-
-            monkey.setSpecies(species);
-            // Check if species accecpted or ask again.
-            species = monkey.getSpecies();
-            if (species.isEmpty()){
-                System.out.println("Species not reconized, re-enter the species.");
-            }
-        }
+        // Set the species of the monkey
+        monkey.setSpecies(getSpecies(name, scanner));
 
         // Get the monkeys body length
         Double bodyLength;
@@ -480,6 +482,80 @@ public class Driver {
         System.out.println("\n\n\nApplication is now complete going to main menu");
     }
 
+    public static void reserveDog(Scanner scanner){
+        /* Reserve a monkey in the system */
+        System.out.println("Which dog would you like to reserve?");
+        for (int i = 0; i < dogList.size(); i++) {
+            Dog dog = dogList.get(i);
+            if(!dog.getReserved()) {
+                // Print dogs to the list
+                System.out.println("[" + i + "] Name: " + dog.getName());
+            }
+        }
+
+        System.out.println("Please include the name or index number");
+        while (true){
+            try {
+                // Select the dog from the index value
+                int userInput = scanner.nextInt();
+                Dog dog = dogList.get(userInput);
+                // Setting the selected dog to reserved
+                System.out.println("Setting " + dog.getName() + " to reserved.");
+                dog.setReserved(true);
+
+                // Clean the scanner
+                scanner.nextLine();
+                return;
+            } catch (InputMismatchException e){
+                String userInput = scanner.nextLine();
+                for(Dog dog: dogList) {
+                    // Find the dog named => userinput
+                    if(dog.getName().equalsIgnoreCase(userInput)) {
+                        // Set the dog to reserved
+                        System.out.println("Setting " + dog.getName() + " to reserved.");
+                        dog.setReserved(true);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    public static void reserveMonkey(Scanner scanner){
+        /* Reserve a monkey in the system */
+        System.out.println("Which monkey would you like to reserve?");
+        for (int i = 0; i < monkeyList.size(); i++) {
+            Monkey monkey = monkeyList.get(i);
+            if(!monkey.getReserved()) {
+                // Print dogs to the list
+                System.out.println("[" + i + "] Name: " + monkey.getName());
+            }
+        }
+        System.out.println("Please include the name or index number");
+        while (true){
+            try {
+                // Select the monkey from the index value
+                int userInput = scanner.nextInt();
+                Monkey monkey = monkeyList.get(userInput);
+                System.out.println("Setting " + monkey.getName() + " to reserved.");
+                monkey.setReserved(true);
+
+                // Clean the scanner
+                scanner.nextLine();
+                return;
+            } catch (InputMismatchException e){
+                String userInput = scanner.nextLine();
+                for(Monkey monkey: monkeyList) {
+                    // Find the monkey named => userinput
+                    if(monkey.getName().equalsIgnoreCase(userInput)) {
+                        // Set the monkey to reserved
+                        System.out.println("Setting " + monkey.getName() + " to reserved.");
+                        monkey.setReserved(true);
+                        return;
+                    }
+                }
+            }
+        }
+    }
     public static void reserveAnimal(Scanner scanner) {
         /* You will need to find the animal by animal type and in service country*/
         // Get either a monkey or dog to process.
@@ -500,75 +576,11 @@ public class Driver {
         // Switch to the animal to check out.
         switch (animalType){
             case "dog":
-                System.out.println("Which dog would you like to reserve?");
-                for (int i = 0; i < dogList.size(); i++) {
-                    Dog dog = dogList.get(i);
-                    if(!dog.getReserved()) {
-                        // Print dogs to the list
-                        System.out.println("[" + i + "] Name: " + dog.getName());
-                    }
-                }
-
-                System.out.println("Please include the name or index number");
-                while (true){
-                    try {
-                        // Select the dog from the index value
-                        int userInput = scanner.nextInt();
-                        Dog dog = dogList.get(userInput);
-                        // Setting the selected dog to reserved
-                        System.out.println("Setting " + dog.getName() + " to reserved.");
-                        dog.setReserved(true);
-
-                        // Clean the scanner
-                        scanner.nextLine();
-                        return;
-                    } catch (InputMismatchException e){
-                        String userInput = scanner.nextLine();
-                        for(Dog dog: dogList) {
-                            // Find the dog named => userinput
-                            if(dog.getName().equalsIgnoreCase(userInput)) {
-                                // Set the dog to reserved
-                                System.out.println("Setting " + dog.getName() + " to reserved.");
-                                dog.setReserved(true);
-                                return;
-                            }
-                        }
-                    }
-                } 
+                reserveDog(scanner)
+                break;
             case "monkey":
-                System.out.println("Which monkey would you like to reserve?");
-                for (int i = 0; i < monkeyList.size(); i++) {
-                    Monkey monkey = monkeyList.get(i);
-                    if(!monkey.getReserved()) {
-                        // Print dogs to the list
-                        System.out.println("[" + i + "] Name: " + monkey.getName());
-                    }
-                }
-                System.out.println("Please include the name or index number");
-                while (true){
-                    try {
-                        // Select the monkey from the index value
-                        int userInput = scanner.nextInt();
-                        Monkey monkey = monkeyList.get(userInput);
-                        System.out.println("Setting " + monkey.getName() + " to reserved.");
-                        monkey.setReserved(true);
-
-                        // Clean the scanner
-                        scanner.nextLine();
-                        return;
-                    } catch (InputMismatchException e){
-                        String userInput = scanner.nextLine();
-                        for(Monkey monkey: monkeyList) {
-                            // Find the monkey named => userinput
-                            if(monkey.getName().equalsIgnoreCase(userInput)) {
-                                // Set the monkey to reserved
-                                System.out.println("Setting " + monkey.getName() + " to reserved.");
-                                monkey.setReserved(true);
-                                return;
-                            }
-                        }
-                    }
-                } 
+                reserveMonkey(scanner); 
+                break;
         }
     }
 
