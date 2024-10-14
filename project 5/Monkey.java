@@ -1,9 +1,15 @@
-/***************************
-*  @Author William Paddock
-*  @Version; .01
-*  IT 145
-*  5.4 Menu Loop and Monkey Intake
-****************************/
+/******************************************************************
+** 
+** 5.4 Menu Loop and Monkey Intake
+** Monkey.java
+** 
+** @Author William Paddock
+** Southern New Hampshire University
+** IT-145-11107-M01 Found in App Development 2024 C-5 (Sept - Oct)
+** Dr. Vivian Lyon
+** Sept 2, 2024
+**
+******************************************************************/
 
 import java.util.*;
 
@@ -17,7 +23,7 @@ public class Monkey extends RescueAnimal {
     private String tailLength;
 
     // Creating species list of expected species
-    private final ArrayList<String> monkeySpeciesList = new ArrayList<>(Arrays.asList(
+    private static ArrayList<String> monkeySpeciesList = new ArrayList<>(Arrays.asList(
             "capuchin","guenon","macaque","marmoset","squirrel monkey","tamarin"
         ));
 
@@ -42,10 +48,6 @@ public class Monkey extends RescueAnimal {
         setTrainingStatus(trainingStatus);
         setReserved(reserved);
         setInServiceCountry(inServiceCountry);
-    }
-
-    public Monkey(){
-        /* Create empty constructor for monkey building */
     }
 
     public String getBreed() {
@@ -96,7 +98,7 @@ public class Monkey extends RescueAnimal {
         /* Return the monkey tail length */
         return tailLength;
     }
-    public ArrayList getAcceptedSpecies(){
+    public static ArrayList getAcceptedSpecies(){
         return monkeySpeciesList;
     }
 }

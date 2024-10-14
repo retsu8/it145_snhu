@@ -1,9 +1,15 @@
-/***************************
-*  @Author William Paddock
-*  @Version; .01
-*  IT 145
-*  5.4 Menu Loop and Monkey Intake
-****************************/
+/******************************************************************
+** 
+** 5.4 Menu Loop and Monkey Intake
+** Dog.java
+** 
+** @Author William Paddock
+** Southern New Hampshire University
+** IT-145-11107-M01 Found in App Development 2024 C-5 (Sept - Oct)
+** Dr. Vivian Lyon
+** Sept 2, 2024
+**
+******************************************************************/
 
 public class Dog extends RescueAnimal {
 
@@ -24,10 +30,6 @@ public class Dog extends RescueAnimal {
         setTrainingStatus(trainingStatus);
         setReserved(reserved);
         setInServiceCountry(inServiceCountry);
-
-    }
-    // Build empty controcture for new dogs
-    public Dog(){
 
     }
 
