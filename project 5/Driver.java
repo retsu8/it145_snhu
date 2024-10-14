@@ -19,7 +19,7 @@ import java.lang.Double;
 
 public class Driver {
     private static ArrayList<Dog> dogList = new ArrayList<Dog>();
-    private static ArrayList<Monkey> monkeyList = new ArrayList<Monkey>();    
+    private static ArrayList<Monkey> monkeyList = new ArrayList<Monkey>();
 
     // Pattern list for date creation input
     private static String dateFormatPattern = "yyyy-MM-dd";
@@ -27,8 +27,6 @@ public class Driver {
     // Country locals used to handle proper country coded
     private static Locale[] locales = Locale.getAvailableLocales();
 
-    // Phases of training for animals.
-    private static ArrayList<String> phaseTraining = new ArrayList<>(Arrays.asList("Phase I", "Phase II", "Phase III", "Phase IV", "Phase V", "Farm"));
     // List of countries possible to include
     private static SortedSet<String> countrySet = new TreeSet<String>();
 
@@ -64,30 +62,36 @@ public class Driver {
                 // Do the first input new dog
                 case "1":
                     intakeNewDog(scnr);
+                    continue;
                 // Do the second input new monkey
                 case "2":
                     intakeNewMonkey(scnr);
+                    continue;
                 // Show the reserved rescue animals
                 case "3":
                     reserveAnimal(scnr);
+                    continue;
                 // Print the list of dogs
                 case "4":
                     printAnimals("dog");
+                    continue;
                 // Print the list of monkeys
                 case "5":
                     printAnimals("monkey");
+                    continue;
                 // print all the animals that are ready and not reserved
                 case "6":
                     printAnimals();
+                    continue;
                 // Quite the application
                 case "q":
                     System.out.println("Quiting applicaiton...");
+                    continue;
                 // Junk input get another one.
                 default:
                     System.out.println("That input is not reconized, please try again.");
             }
         }
-
     }
 
     public static void displayMenu() {
@@ -131,28 +135,21 @@ public class Driver {
         monkeyList.add(monkey2);
     }
 
-    public static String getServiceCountry(String name, Scanner scanner){
-        /* Get the animals country of service */
-        String country;
-        System.out.println("Which county is " + name + "  living in?");
-        while (true){
-            country = scanner.nextLine().trim();
-            // Check our countries to see if its a real country
-            for (String c : countrySet) {
-                if (country.equalsIgnoreCase(c)) {
-                    return c;
-                }
-            }
-            // If not print the list of countries and a request to for a real one
-            System.out.println("Input not reconized, please enter a country");
-            System.out.println(countrySet.toString());
+    public static void listPrettyPrint(String[] simpleList){
+        // Pretty print items with comma
+        for (int i = 0; i < simpleList.length - 1; i++){
+            String item = simpleList[i];
+            System.out.print(item + ", ");
         }
+        // Print the last item of the list
+        System.out.println(
+            simpleList[simpleList.length - 1]
+        );
     }
 
-    public static String getAcquisitionLocation(String name, Scanner scanner){
-        /* Get a country list and ask for animal countries obtained location */
+    public static String checkCountry(Scanner scanner){
+        /* Country simple function check */
         String country;
-        System.out.println("Which county did " + name + " come from?");
         while (true){
             country = scanner.nextLine().trim();
             // Check our countries to see if its a real country
@@ -165,6 +162,18 @@ public class Driver {
             System.out.println("Input not reconized, please enter a country");
             System.out.println(countrySet.toString());
         }
+    }
+
+    public static String getServiceCountry(String name, Scanner scanner){
+        /* Get the animals country of service */
+        System.out.println("Which county is " + name + " living in?");
+        return checkCountry(scanner);
+    }
+
+    public static String getAcquisitionLocation(String name, Scanner scanner){
+        /* Get the animals country current location */
+        System.out.println("Which county did " + name + " come from?");
+        return checkCountry(scanner);
     }
 
     public static Boolean getReserved(String name, Scanner scanner){
@@ -194,12 +203,36 @@ public class Driver {
         while(true){
             // Check to make sure there is input
             checkedPhase = scanner.nextLine().trim();
-            for (String phase : phaseTraining) {
-                if (phase.equalsIgnoreCase(checkedPhase)) {
-                    return phase;
-                }
+            //Make the string lowercase for easier handling
+            checkedPhase = checkedPhase.toLowerCase();
+            // Creating a case check here with fall through to get all phase actions
+            // Also accepted 1,2,3,4,5 as a quick input
+            switch (checkedPhase) {
+                case "phase i":
+                case "phase 1":
+                case "1":
+                    return "Phase I";
+                case "phase ii":
+                case "phase 2":
+                case "2":
+                    return "Phase II";
+                case "phase iii": 
+                case "phase 3":
+                case "3": 
+                    return "Phase III";
+                case "phase iv":
+                case "phase 4": 
+                case "4": 
+                    return "Phase IV";
+                case "phase v":
+                case "phase 5":
+                case "5": 
+                    return "Phase V";
+                case "farm":
+                    return "Farm";
+                default:
+                    System.out.println("Please do enter a phase.");
             }
-            System.out.println("Please do enter a phase.");
         }
     }
 
@@ -229,24 +262,28 @@ public class Driver {
         }
     }
 
-    public static String getSpecies(String name, Scanner scanner, ArrayList speciesList){
+    public static String getSpecies(String name, Scanner scanner, String[] speciesList){
         /* Get the species of the animal */
         System.out.println("Which species is " + name + "?");
-        System.out.println("Please use Capuchin, Guenon, Macaque, Marmoset, Squirrel Monkey, Tamarin");
-        String species = "";
+        System.out.println("Please use ");
+        //Pretty print the list
+        listPrettyPrint(speciesList);
+        // Set the checked species to empty
+        String checkedSpecies = "";
         // Check to make sure the species if filled in correctly in accepted species.
-        while(species.isEmpty()){
+        while(checkedSpecies.isEmpty()){
             // Get species and check if correct
-            species = scanner.nextLine();
+            checkedSpecies = scanner.nextLine();
 
             // Check if an allowed species has been entered.
-            if (speciesList.contains(species)){
-                // return that species if happy.
-                return species;
-            } else {
-                species = "";
-                System.out.println("Species not reconized, re-enter the species.");
+            for (String species : speciesList){
+                if (species.equalsIgnoreCase(checkedSpecies)){
+                    // return that species if happy.
+                    return species;
+                }
             }
+            checkedSpecies = "";
+            System.out.println("Species not reconized, re-enter the species.");
         }
         // Making the compiler happy
         return "";
@@ -457,7 +494,7 @@ public class Driver {
 
     // Complete intakeNewMonkey
     //Instantiate and add the new monkey to the appropriate list
-    // For the project submission you must also  validate the input
+    // For the project submission you must also validate the input
     // to make sure the monkey doesn't already exist and the species type is allowed
     public static void intakeNewMonkey(Scanner scanner) {
         System.out.println("What is the monkeys's name?");
@@ -478,29 +515,14 @@ public class Driver {
         // Get the gender of the monkey
         String gender = getGender(name, scanner);
 
+        // Set the species of the monkey
+        String species = getSpecies(name, scanner, Monkey.getAcceptedSpecies());
+
         // Get the monkey age
         String age = getAge(name, scanner);
         
         //Get the monkey weight
         String weight = getWeight(name, scanner);
-
-        // Get the acqusiation date
-        String acquisitionDate = getAcquisitionDate(name, scanner);
-
-        // Get the acqusition location
-        String acquisitionCountry = getAcquisitionLocation(name, scanner);
-
-        // Get dog trained
-        String trainingStatus = getTrainingStatus(name, scanner);
-
-        // Set if monkey reserved
-        boolean reserved = getReserved(name, scanner);
-
-        // Get Country of service
-        String inServiceCountry = getServiceCountry(name, scanner);
-
-        // Set the species of the monkey
-        String species = getSpecies(name, scanner, Monkey.getAcceptedSpecies());
 
         // Get the monkeys body length
         String bodyLength = getBodyLength(name, scanner);
@@ -510,6 +532,21 @@ public class Driver {
 
         // Get the monkeys tailLength
         String tailLength = getTailLength(name, scanner);
+
+        // Get the acqusition location
+        String acquisitionCountry = getAcquisitionLocation(name, scanner);
+
+        // Get Country of service
+        String inServiceCountry = getServiceCountry(name, scanner);
+
+        // Get the acqusiation date
+        String acquisitionDate = getAcquisitionDate(name, scanner);
+
+        // Get dog trained
+        String trainingStatus = getTrainingStatus(name, scanner);
+
+        // Set if monkey reserved
+        boolean reserved = getReserved(name, scanner);
         
         // Create the new monkey
         Monkey newMonkey = new Monkey(name, breed, gender, age, weight, acquisitionDate, acquisitionCountry, trainingStatus, reserved, inServiceCountry, tailLength, height, bodyLength, species);
@@ -669,7 +706,6 @@ public class Driver {
                 // Create a default in case its ever needed.
                 System.out.println("We have no idea how you managed to get here ?");
             }
-
     }
 }
 

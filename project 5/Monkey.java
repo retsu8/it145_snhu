@@ -23,9 +23,9 @@ public class Monkey extends RescueAnimal {
     private String tailLength;
 
     // Creating species list of expected species
-    private static ArrayList<String> monkeySpeciesList = new ArrayList<>(Arrays.asList(
-            "capuchin","guenon","macaque","marmoset","squirrel monkey","tamarin"
-        ));
+    private static String[] monkeySpeciesList = new String[]{
+        "Capuchin","Guenon","Macaque","Marmoset","Squirrel Monkey","Tamarin"
+    };
 
     // Constructor
     public Monkey(String name, String breed, String gender, String age,
@@ -98,7 +98,7 @@ public class Monkey extends RescueAnimal {
         /* Return the monkey tail length */
         return tailLength;
     }
-    public static ArrayList getAcceptedSpecies(){
+    public static String[] getAcceptedSpecies(){
         return monkeySpeciesList;
     }
 }
