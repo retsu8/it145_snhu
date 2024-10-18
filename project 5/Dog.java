@@ -1,6 +1,6 @@
 /******************************************************************
 ** 
-** 5.4 Menu Loop and Monkey Intake
+** 7-1 Project Two Submission
 ** Dog.java
 ** 
 ** @Author William Paddock

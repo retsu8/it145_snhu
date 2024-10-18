@@ -1,7 +1,7 @@
 /******************************************************************
 ** 
-** 5.4 Menu Loop and Monkey Intake
-** RescueAnimal.java
+** 7-1 Project Two Submission
+** Dog.java
 ** 
 ** @Author William Paddock
 ** Southern New Hampshire University

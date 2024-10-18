@@ -1,7 +1,7 @@
 /******************************************************************
 ** 
-** 5.4 Menu Loop and Monkey Intake
-** Monkey.java
+** 7-1 Project Two Submission
+** Dog.java
 ** 
 ** @Author William Paddock
 ** Southern New Hampshire University
@@ -10,8 +10,6 @@
 ** Sept 2, 2024
 **
 ******************************************************************/
-
-import java.util.*;
 
 public class Monkey extends RescueAnimal {
 
@@ -32,7 +30,7 @@ public class Monkey extends RescueAnimal {
     String weight, String acquisitionDate, String acquisitionCountry,
 	String trainingStatus, boolean reserved, String inServiceCountry, String tailLength, 
     String height, String bodyLength, String species) {
-        /* adding in new items expected for monkey ouble tailLength, 
+        /* adding in new items expected for monkey double tailLength, 
         String height, String bodyLength, String species */
         setName(name);
         setBreed(breed);

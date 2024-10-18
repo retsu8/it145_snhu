@@ -1,7 +1,7 @@
 /******************************************************************
 ** 
-** 5.4 Menu Loop and Monkey Intake
-** Driver.java
+** 7-1 Project Two Submission
+** Dog.java
 ** 
 ** @Author William Paddock
 ** Southern New Hampshire University
@@ -13,7 +13,6 @@
 
 import java.util.*;
 import java.util.stream.*;
-import java.time.*;
 import java.text.*;
 import java.lang.Double;
 
@@ -46,7 +45,7 @@ public class Driver {
             // Ignore list for countries not needed
             if (country.equalsIgnoreCase("world"))
                 continue;
-            // make sure the country has content from locales
+            // make sure the country has content from locals
             else if (!country.isEmpty()) {
                 countrySet.add(country);
             }
@@ -89,7 +88,7 @@ public class Driver {
                     continue;
                 // Junk input get another one.
                 default:
-                    System.out.println("That input is not reconized, please try again.");
+                    System.out.println("Error: nput is not reconizedW.");
             }
         }
     }
@@ -124,7 +123,7 @@ public class Driver {
 
     public static void initializeMonkeyList() {
         /* Adds monkeys to a list for testing */
-        // Create the monkeys here with the contructor.
+        // Create the monkeys here with the constructor.
         Monkey monkey1 = new Monkey("Mankey", "Short Hair", "male", "1", "8.5", "05-12-2019", "Brazil", "intake", false, "United States", "22.3", 
     "11.1", "2.1", "Capuchin");
         Monkey monkey2 = new Monkey("Figles", "Howler", "female", "1.115", "9.2", "05-10-2019", "Uganda", "in service", false, "United States", "22.3", 
@@ -159,7 +158,7 @@ public class Driver {
                 }
             }
             // If no country found request input.
-            System.out.println("Input not reconized, please enter a country");
+            System.out.println("Error: Input not reconized, please enter a country");
             System.out.println(countrySet.toString());
         }
     }
@@ -187,10 +186,9 @@ public class Driver {
                 return true;
             } else if (reserved.equalsIgnoreCase("no")){
                 return false;
-            } else {
-                // Print message if input fails to reconize.
-                System.out.println("Input not reconized, enter only yes/no");
             }
+            // Print message if input fails to recognize.
+            System.out.println("Error: Input not reconized, enter only yes/no");
         }
     }
 
@@ -231,7 +229,7 @@ public class Driver {
                 case "farm":
                     return "Farm";
                 default:
-                    System.out.println("Please do enter a phase.");
+                    System.out.println("Error: Input not reconized.");
             }
         }
     }
@@ -245,17 +243,17 @@ public class Driver {
             try {
                 // Get the next double
                 weight = scanner.nextDouble();
-                // Check to make sure its a sensable value
+                // Check to make sure its a sensible value
                 if (weight > 0.0 && weight <= 250.0){
                     // clean the scanner head.
                     scanner.nextLine();
-                    // Return a string of this value since we should not perform math without reslizing it on a static weight.
+                    // Return a string of this value since we should not perform math without setting it as a double.
                     return String.valueOf(weight);
                 } else if (weight <= 0.0 || weight > 250.0) {
-                    System.out.println("Weight not within range of 0 - 250 pounds.");
+                    System.out.println("Error: Weight not within range of 0 - 250 pounds.");
                 }
             } catch (InputMismatchException e){
-                System.out.println("Input not reconized, enter a weight in pounds");
+                System.out.println("Error: Input not reconized, enter a weight in pounds");
             }
             // Cleaning input for 
             scanner.nextLine();
@@ -283,7 +281,7 @@ public class Driver {
                 }
             }
             checkedSpecies = "";
-            System.out.println("Species not reconized, re-enter the species.");
+            System.out.println("Error: Species not reconized.");
         }
         // Making the compiler happy
         return "";
@@ -301,14 +299,14 @@ public class Driver {
             } else if (gender.equalsIgnoreCase("Female")){
                 return "Female";
             } else {
-                System.out.println("Input not reconized, enter only Male/Female");
+                System.out.println("Error: Input not reconized, enter only Male/Female");
                 continue;
             }
         }
     }
 
     public static String getAge(String name, Scanner scanner){
-        /* Get the animals age; set age max to 30 as it is gnerally higher than the lifespan of the rescue animals */
+        /* Get the animals age; set age max to 30 as it is generally higher than the lifespan of the rescue animals */
         int age;
         System.out.println("How old is " + name + "?");
         while (true){
@@ -319,10 +317,10 @@ public class Driver {
                     // Clean scanner for new inputjava.beans.ss
                     return String.valueOf(age);
                 } else {
-                    System.out.println("Age not within range of 0 - 30 years; please enter an age in this range.");
+                    System.out.println("Errror: Age not within range of 0 - 30 years; please enter an age in this range.");
                 }
             } catch (InputMismatchException e){
-                System.out.println("Input not reconized, enter an age in years");
+                System.out.println("Error: Input not reconized, enter an age in years");
             }
             // Clean the scanner for new input
             scanner.nextLine();
@@ -350,22 +348,20 @@ public class Driver {
             try {
                 // Build date formatter to handle datetime
                 date = formatter.parse(scanner.nextLine().trim());
-                // Print the date to for the person
-                System.out.println("This is the date you entered: " + date);
                 // Check to make sure the date is reasonable
                 if (date.before(tomorrow) && date.after(longAgo)){
                     return formatter.format(date);
-                // This date is to after tomarrow, cant add a dog/monkey on a day that has yet to even come
+                // This date is to after tomorrow, can't add a dog/monkey on a day that has yet to even come
                 } else if (date.after(tomorrow)) {
-                    System.out.println("Date needs to be before " + tomorrow);
+                    System.out.println("Error: Date needs to be before " + tomorrow);
                 // Else the date is to old, dog/monkey really should not be in system any longer
                 } else {
-                    System.out.println("Date needs to be after " + longAgo);
+                    System.out.println("Error: Date needs to be after " + longAgo);
                 }
                 continue;
             } catch (InputMismatchException | ParseException e){
-                // Invalid date input, keeping input type mismatch to include propable cases.
-                System.out.println("Input not a date, please try again");
+                // Invalid date input, keeping input type mismatch to include probable cases.
+                System.out.println("Error: Input is not a date.");
                 continue;
             }
         }
@@ -381,13 +377,13 @@ public class Driver {
                 if (bodyLength > 0.0 && bodyLength <= 4.5){
                     // Clean the scanner to handle the next variable
                     scanner.nextLine();
-                    // Set as a string here so its not accidently mathed.
+                    // Set as a string here so its not accidently calculated.
                     return String.valueOf(bodyLength);
                 } else if (bodyLength <= 0.0 || bodyLength > 4.5) {
-                    System.out.println("Body Length not within range of 0 - 4.5 feet.");
+                    System.out.println("Error: Body Length not within range of 0 - 4.5 feet.");
                 }
             } catch (InputMismatchException e){
-                System.out.println("Input not reconized, enter a number");
+                System.out.println("Error: Input not reconized, enter a number");
             }
             // Clean the scanner for new input
             scanner.nextLine();
@@ -405,13 +401,13 @@ public class Driver {
                 height = scanner.nextDouble();
                 // Making sure height is reasonable
                 if (height > 0.0 && height <= 55.0){
-                    // Returing string so not accidently mathed
+                    // Returning string so not accidently calculated
                     return String.valueOf(height);
                 } else if (height <= 0.0 || height > 55.0) {
-                    System.out.println("Height not within range of 0 - 55 inches.");
+                    System.out.println("Error: Height not within range of 0 - 55 inches.");
                 }
             } catch (InputMismatchException e){
-                System.out.println("Input not reconized, enter a number");
+                System.out.println("Error: Input not reconized, enter a number");
             }
             // Clean the scanner for new input
             scanner.nextLine();
@@ -427,13 +423,13 @@ public class Driver {
                 tailLength = scanner.nextDouble();
                 // Set this variable in inches to make sense of tail length
                 if (tailLength > 0.0 && tailLength <= 4.5){
-                    // Set to string so not accidently mathed
+                    // Set to string so not accidently calculated
                     return String.valueOf(tailLength);
                 } else if (tailLength <= 0.0 || tailLength > 4.5) {
-                    System.out.println("Tail Length not within range of 0 - 4.5 feet.");
+                    System.out.println("Error: Tail Length not within range of 0 - 4.5 feet.");
                 }
             } catch (InputMismatchException e){
-                System.out.println("Input not reconized, enter a number");
+                System.out.println("Error: Input not reconized, enter a number");
             }
             // Clean the scanner for new input
             scanner.nextLine();
@@ -464,10 +460,10 @@ public class Driver {
         //Get the dogs weight
         String weight = getWeight(name, scanner);
 
-        // Get the acqusiation date
+        // Get the acquisition date
         String acquisitionDate = getAcquisitionDate(name, scanner);
 
-        // Get the acqusition location
+        // Get the acquisition location
         String acquisitionCountry = getAcquisitionLocation(name, scanner);
 
         // Get dog trained
@@ -479,10 +475,10 @@ public class Driver {
         // Get Country of service
         String inServiceCountry = getServiceCountry(name, scanner);
 
-        // Contruct the new dog
+        // Construct the new dog
         Dog dog = new Dog(name, breed, gender, age, weight, acquisitionDate, acquisitionCountry, trainingStatus, reserved, inServiceCountry);
 
-        // Dog inputs are finished, adding to doggy list
+        // Dog inputs are finished, adding to dog list
         System.out.println("Creating the following dog.");
         System.out.println(dog.toString());
         dogList.add(dog);
@@ -533,13 +529,13 @@ public class Driver {
         // Get the monkeys tailLength
         String tailLength = getTailLength(name, scanner);
 
-        // Get the acqusition location
+        // Get the acquisition location
         String acquisitionCountry = getAcquisitionLocation(name, scanner);
 
         // Get Country of service
         String inServiceCountry = getServiceCountry(name, scanner);
 
-        // Get the acqusiation date
+        // Get the acquisition date
         String acquisitionDate = getAcquisitionDate(name, scanner);
 
         // Get dog trained
@@ -592,6 +588,7 @@ public class Driver {
                     }
                 }
             }
+            System.out.println("Error: input not reconized.");
         }
     }
     public static void reserveMonkey(Scanner scanner){
@@ -628,6 +625,7 @@ public class Driver {
                     }
                 }
             }
+            System.out.println("Error: input not reconized.");
         }
     }
     public static void reserveAnimal(Scanner scanner) {
@@ -645,6 +643,7 @@ public class Driver {
             } else {
                 animalType = "";
             }
+            System.out.println("Error: input not reconized.");
         }
 
         // Switch to the animal to check out.
@@ -678,7 +677,7 @@ public class Driver {
             System.out.println(monkey.toString());
         }
 
-        // Reserable dog list
+        // Reservable dog list
         System.out.println("\nThese dogs are reservable.");
         for(Dog dog: reservedDogs ){
             System.out.println(dog.toString());
@@ -688,7 +687,7 @@ public class Driver {
     }
     public static void printAnimals(String animal) {
         /* This function prints a a list of selected animals
-           Both as this funtion was used to contruct the reserve function */
+           Both as this function was used to construct the reserve function */
         switch (animal) {
             case "dog":
                 // Print the list of dogs that are in the system
@@ -704,7 +703,7 @@ public class Driver {
                 break;
             default:
                 // Create a default in case its ever needed.
-                System.out.println("We have no idea how you managed to get here ?");
+                System.out.println("ERROR: We have no idea how you managed to get here ?");
             }
     }
 }
